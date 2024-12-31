@@ -44,7 +44,7 @@ export default function HomePage() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="text-5xl md:text-7xl font-light text-white tracking-wider"
             >
-              Via Roma Trading
+              Via Roma
             </motion.h1>
             <motion.p 
               {...fadeInUp}
