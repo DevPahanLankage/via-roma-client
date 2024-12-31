@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useState, useRef } from 'react';
+import { Product, ProductCategory, products, productCategories } from '@/types/products';
 
 // Common animation variants
 const fadeInUp = {
@@ -27,6 +29,21 @@ const fadeInSide = {
 };
 
 export default function ProductsPage() {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const productListRef = useRef<HTMLDivElement>(null);
+
+  const filteredProducts = selectedCategory 
+    ? products.filter(product => product.category === selectedCategory)
+    : [];
+
+  const handleCategoryClick = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    // Wait for state to update and component to render
+    setTimeout(() => {
+      productListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -61,89 +78,39 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Featured Product */}
+      {/* Product Categories */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <motion.div
-              {...fadeInSide.left}
-              transition={{ duration: 0.8 }}
-              className="space-y-6"
-            >
-              <h2 className="text-4xl font-light text-primary">Luxury Sanitary Ware</h2>
-              <div className="space-y-4 text-accent">
-                <p className="text-lg">
-                  Experience unparalleled quality and design in our premium sanitary ware collection.
-                </p>
-                <ul className="space-y-2">
-                  <li>• Premium quality materials</li>
-                  <li>• Contemporary designs</li>
-                  <li>• Water-efficient technology</li>
-                  <li>• Easy maintenance</li>
-                </ul>
-              </div>
-            </motion.div>
-            <motion.div
-              {...fadeInSide.right}
-              transition={{ duration: 0.8 }}
-              className="relative h-[500px]"
-            >
-              <Image
-                src="/images/bathroom-sink-hotel-room.jpg"
-                alt="Luxury Sanitary Ware"
-                fill
-                className="object-cover"
-              />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Product Categories */}
-      <section className="py-24 bg-[#f5f5f5]">
-        <div className="container mx-auto px-4">
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            {...fadeInUp}
             transition={{ duration: 0.6 }}
             className="text-4xl font-light text-primary text-center mb-16"
           >
             Product Categories
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              {
-                title: "Bathroom Fittings",
-                description: "Premium taps, showers, and mixers from leading brands",
-                image: "/images/bathroom-rub.jpg"
-              },
-              {
-                title: "Sanitary Ware",
-                description: "High-quality toilets, basins, and bidets",
-                image: "/images/aesthetic-bathroom.jpg"
-              },
-              {
-                title: "Accessories",
-                description: "Elegant bathroom accessories and fixtures",
-                image: "/images/small-bathroom-with-modern-style-ai-generated.jpg"
-              }
-            ].map((category, index) => (
+            {productCategories.map((category, index) => (
               <motion.div
-                key={index}
+                key={category.id}
                 {...fadeInUp}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="text-center space-y-4"
+                className={`
+                  text-center space-y-4 cursor-pointer group
+                  transition-all duration-500 ease-out
+                  ${selectedCategory === category.id ? 'scale-[1.02]' : ''}
+                `}
+                onClick={() => handleCategoryClick(category.id)}
               >
-                <div className="aspect-[4/3] relative mb-6">
+                <div className="aspect-[4/3] relative mb-6 overflow-hidden">
                   <Image
                     src={category.image}
                     alt={category.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                   />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
                 </div>
-                <h3 className="text-2xl font-light text-primary">{category.title}</h3>
+                <h3 className="text-2xl font-light text-primary transition-colors duration-500 group-hover:text-accent">{category.title}</h3>
                 <p className="text-accent">{category.description}</p>
               </motion.div>
             ))}
@@ -151,10 +118,102 @@ export default function ProductsPage() {
         </div>
       </section>
 
+      {/* Product List */}
+      {selectedCategory && (
+        <section ref={productListRef} className="py-24 bg-white scroll-mt-8">
+          <div className="container mx-auto px-4">
+            <div className="flex justify-between items-center mb-16">
+              <motion.h2
+                {...fadeInUp}
+                transition={{ duration: 0.6 }}
+                className="text-4xl font-light text-primary"
+              >
+                {productCategories.find(cat => cat.id === selectedCategory)?.title}
+              </motion.h2>
+              <button
+                onClick={() => setSelectedCategory(null)}
+                className="text-accent hover:text-primary transition-colors duration-300"
+              >
+                View All Categories
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+              {filteredProducts.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  {...fadeInUp}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="group space-y-6"
+                >
+                  <div className="aspect-[4/3] relative overflow-hidden bg-[#f5f5f5]">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-contain transition-transform duration-500 ease-out group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-light text-primary transition-colors duration-500 group-hover:text-accent">
+                      {product.name}
+                    </h3>
+                    <p className="text-accent">{product.description}</p>
+                    
+                    {/* Location Information */}
+                    {product.locations && (
+                      <div className="pt-4 border-t border-gray-100">
+                        <h4 className="text-lg font-light text-primary mb-2">Available at</h4>
+                        <div className="space-y-2 text-accent">
+                          {product.locations.map((location, i) => (
+                            <p key={i} className="flex items-center space-x-2">
+                              <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                              <span>{location}</span>
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {product.features && (
+                      <div className="pt-4 border-t border-gray-100">
+                        <h4 className="text-lg font-light text-primary mb-2">Features</h4>
+                        <ul className="text-accent space-y-2">
+                          {product.features.map((feature, i) => (
+                            <li key={i} className="flex items-center space-x-2">
+                              <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {product.specifications && (
+                      <div className="pt-4 border-t border-gray-100">
+                        <h4 className="text-lg font-light text-primary mb-2">Specifications</h4>
+                        <div className="text-accent space-y-2">
+                          {Object.entries(product.specifications).map(([key, value], i) => (
+                            <p key={i} className="flex items-center space-x-2">
+                              <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                              <span>{key}: {value}</span>
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Quality Statement */}
       <section className="relative h-[80vh]">
         <Image
-          src="/images/ripples-towcester-showroom.jpg"
+          src="/images/bathware-showroom.jpg"
           alt="Quality Products"
           fill
           className="object-cover"
