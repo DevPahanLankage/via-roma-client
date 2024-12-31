@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Common animation variants
 const fadeInUp = {
@@ -207,17 +208,36 @@ export default function HomePage() {
 
       {/* Contact CTA */}
       <section className="py-24 bg-[#f5f5f5]">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            {...fadeInUp}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl mx-auto space-y-8"
-          >
-            <h2 className="text-4xl font-light text-primary">Visit Our Showroom</h2>
-            <p className="text-lg text-accent">
-              Experience our premium collections in person and discuss your requirements with our team
-            </p>
-          </motion.div>
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <motion.div
+              {...fadeInUp}
+              transition={{ duration: 0.8 }}
+              className="text-left space-y-8"
+            >
+              <h2 className="text-4xl font-light text-primary">Visit Our Showroom</h2>
+              <p className="text-lg text-accent">
+                Experience our premium collections in person and discuss your requirements with our team
+              </p>
+              <Link href="/locations" className="inline-block">
+                <button className="px-8 py-3 border border-primary text-primary hover:bg-primary hover:text-white transition-colors duration-300">
+                  Showroom Locations
+                </button>
+              </Link>
+            </motion.div>
+            <motion.div
+              {...fadeInSide.right}
+              transition={{ duration: 0.8 }}
+              className="relative h-[400px]"
+            >
+              <Image
+                src="/images/product-1.jpg"
+                alt="Our Showroom"
+                fill
+                className="object-cover"
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
     </div>
