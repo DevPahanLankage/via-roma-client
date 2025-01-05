@@ -5,15 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const footerSections = [
-    {
-      title: 'Products',
-      links: [
-        { name: 'All Products', href: '/products' },
-        { name: 'Featured', href: '/products#featured' },
-        { name: 'New Arrivals', href: '/products#new' },
-        { name: 'Best Sellers', href: '/products#best' },
-      ],
-    },
+  
     {
       title: 'Company',
       links: [
@@ -23,15 +15,7 @@ export default function Footer() {
         { name: 'Careers', href: '/about#careers' },
       ],
     },
-    {
-      title: 'Support',
-      links: [
-        { name: 'Contact', href: '#' },
-        { name: 'Shipping', href: '#' },
-        { name: 'Returns', href: '#' },
-        { name: 'FAQ', href: '#' },
-      ],
-    },
+
   ];
 
   const socialLinks = [
