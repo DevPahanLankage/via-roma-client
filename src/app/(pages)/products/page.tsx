@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 import { Product, ProductCategory, products, productCategories } from '@/types/products';
+import Link from 'next/link';
 
 // Common animation variants
 const fadeInUp = {
@@ -88,6 +89,13 @@ export default function ProductsPage() {
           >
             Product Categories
           </motion.h2>
+          <motion.h4
+            {...fadeInUp}
+            transition={{ duration: 0.6 }}
+            className="text-2xl font-light text-primary text-center mb-8"
+          >
+            Click To Select
+          </motion.h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {productCategories.map((category, index) => (
               <motion.div
@@ -130,12 +138,12 @@ export default function ProductsPage() {
               >
                 {productCategories.find(cat => cat.id === selectedCategory)?.title}
               </motion.h2>
-              <button
+              {/* <button
                 onClick={() => setSelectedCategory(null)}
                 className="text-accent hover:text-primary transition-colors duration-300"
               >
                 View All Categories
-              </button>
+              </button> */}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
               {filteredProducts.map((product, index) => (
@@ -202,6 +210,12 @@ export default function ProductsPage() {
                         </div>
                       </div>
                     )}
+                      <Link
+                  href="/locations"
+                  className="mt-8 block px-6 py-6 bg-primary text-white text-lg rounded-lg shadow-md hover:bg-primary-dark transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+                >
+                  Learn More
+                </Link>
                   </div>
                 </motion.div>
               ))}
@@ -211,7 +225,7 @@ export default function ProductsPage() {
       )}
 
       {/* Quality Statement */}
-      <section className="relative h-[80vh]">
+      {/* <section className="relative h-[80vh]">
         <Image
           src="/images/bathware-showroom.jpg"
           alt="Quality Products"
@@ -231,7 +245,7 @@ export default function ProductsPage() {
             </p>
           </div>
         </motion.div>
-      </section>
+      </section> */}
     </div>
   );
 } 
