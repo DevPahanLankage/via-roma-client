@@ -58,13 +58,23 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               className="text-xl md:text-2xl max-w-3xl mx-auto text-white/90 font-light tracking-wide"
             >
-              <Link href={"/products"}>View Our Products</Link>
-              <Link href={"/locations"}>View Our Locations</Link>
+              <Link
+                href="/products"
+                className="inline-block mt-5 px-6 py-3 bg-primary text-white text-lg rounded-lg shadow-md hover:bg-primary-dark transition duration-300 ease-in-out"
+              >
+                View Our Products
+              </Link>
+              <br/>
+              <Link
+                href="/locations"
+                className="inline-block mt-4 px-6 py-3 bg-orange-400 text-white text-lg rounded-lg shadow-md hover:bg-accent-dark transition duration-300 ease-in-out"
+              >
+                View Our Showrooms
+              </Link>
             </motion.p>
           </div>
-          
         </div>
-       
+
         {/* Scroll Indicator */}
         <motion.div
           animate={{ y: [0, 8, 0] }}
