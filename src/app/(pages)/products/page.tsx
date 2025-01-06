@@ -214,7 +214,7 @@ export default function ProductsPage() {
                   href="/locations"
                   className="mt-8 block px-6 py-6 bg-primary text-white text-lg rounded-lg shadow-md hover:bg-primary-dark transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
                 >
-                  Learn More
+                  Visit Us
                 </Link>
                   </div>
                 </motion.div>
